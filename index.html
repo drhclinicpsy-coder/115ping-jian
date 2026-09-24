@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>簡報展示</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #slide {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    background: #000;
+  }
+
+  .hint {
+    position: fixed;
+    bottom: 12px;
+    right: 16px;
+    color: rgba(255,255,255,0.35);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<img id="slide" src="slides/slide_01.png" alt="slide">
+<div class="hint" id="hint">1 / 29</div>
+
+<script>
+  const totalSlides = 29;
+  let current = 1;
+
+  const slide = document.getElementById('slide');
+  const hint = document.getElementById('hint');
+
+  function pad(num) {
+    return String(num).padStart(2, '0');
+  }
+
+  function showSlide(num) {
+    if (num < 1) num = 1;
+    if (num > totalSlides) num = totalSlides;
+
+    current = num;
+    slide.src = 'slides/slide_' + pad(current) + '.png';
+    hint.textContent = current + ' / ' + totalSlides;
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (
+      e.key === 'ArrowRight' ||
+      e.key === 'PageDown' ||
+      e.key === 'Enter' ||
+      e.key === ' '
+    ) {
+      showSlide(current + 1);
+    }
+
+    if (
+      e.key === 'ArrowLeft' ||
+      e.key === 'PageUp' ||
+      e.key === 'Backspace'
+    ) {
+      showSlide(current - 1);
+    }
+  });
+
+  document.addEventListener('click', function() {
+    showSlide(current + 1);
+  });
+
+  let touchStartX = 0;
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  document.addEventListener('touchend', function(e) {
+    let touchEndX = e.changedTouches[0].screenX;
+    if (touchStartX - touchEndX > 50) {
+      showSlide(current + 1);
+    }
+    if (touchEndX - touchStartX > 50) {
+      showSlide(current - 1);
+    }
+  });
+</script>
+
+</body>
+</html>
