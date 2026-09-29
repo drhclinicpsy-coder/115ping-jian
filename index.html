@@ -40,8 +40,8 @@
 </head>
 <body>
 
-<!-- 預設第一頁：改為大寫 .PNG -->
-<img id="slide" src="slides/slide_01.PNG" alt="slide">
+<!-- 已移除 slides/ -->
+<img id="slide" src="slide_01.PNG" alt="slide">
 <div class="hint" id="hint">1 / 29</div>
 
 <script>
@@ -60,8 +60,8 @@
     if (num > totalSlides) num = totalSlides;
 
     current = num;
-    // JS 自動換頁：改為大寫 .PNG
-    slide.src = 'slides/slide_' + pad(current) + '.PNG';
+    // 已移除 slides/
+    slide.src = 'slide_' + pad(current) + '.PNG';
     hint.textContent = current + ' / ' + totalSlides;
   }
 
